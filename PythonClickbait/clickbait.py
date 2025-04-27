@@ -110,45 +110,6 @@ print(classification_report(y_true, y_pred, target_names=["Non-Clickbait", "Clic
 
 bert_model.save_pretrained('clickbait_bert_model')
 
-
-'''
-# BERT Model
-tokenizer_bert = BertTokenizer.from_pretrained("bert-base-uncased")
-bert_model = BertForSequenceClassification.from_pretrained("bert-base-uncased", num_labels=2).to(device)
-
-# Prepare inputs for training
-from torch.utils.data import DataLoader, TensorDataset
-from sklearn.model_selection import train_test_split
-
-encoded_inputs = tokenizer_bert(list(df['Headline']), padding=True, truncation=True, return_tensors='pt', max_length=64)
-X_train_ids, X_test_ids, y_train_bert, y_test_bert = train_test_split(encoded_inputs['input_ids'], df['Label'].values, test_size=0.2, random_state=42)
-X_train_mask, X_test_mask = train_test_split(encoded_inputs['attention_mask'], test_size=0.2, random_state=42)
-
-dataset_train = TensorDataset(X_train_ids, X_train_mask, torch.tensor(y_train_bert))
-dataset_test = TensorDataset(X_test_ids, X_test_mask, torch.tensor(y_test_bert))
-train_loader = DataLoader(dataset_train, batch_size=8)
-
-# Training loop
-from torch.optim import AdamW
-bert_model.train()
-optimizer = AdamW(bert_model.parameters(), lr=2e-5)
-
-for epoch in range(2):
-    total_loss = 0
-    for batch in train_loader:
-        b_input_ids, b_input_mask, b_labels = [t.to(device) for t in batch]
-        outputs = bert_model(input_ids=b_input_ids, attention_mask=b_input_mask, labels=b_labels)
-        loss = outputs.loss
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-        total_loss += loss.item()
-    print(f"Epoch {epoch + 1}, Loss: {total_loss / len(train_loader)}")
-
-bert_model.save_pretrained('clickbait_bert_model')
-'''
-
-
 # Logistic Regression Model
 log_model = LogisticRegression()
 log_model.fit(X_train_tfidf, y_train)
