@@ -1,0 +1,13 @@
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+nltk
+joblib
+streamlit
+tensorflow
+torch
+torchvision
+torchaudio
+transformers
