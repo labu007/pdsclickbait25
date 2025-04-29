@@ -24,3 +24,4 @@ TensorFlow / Keras
 PyTorch and Huggingface Transformers
 NLTK (Natural Language Toolkit)
 
+pip install -r requirements.txt (to set the python environment)
